@@ -1,0 +1,10 @@
+{
+	"name": "dfract",
+	"description": "A Fractal application using GTK+ and written in D.",
+	"copyright": "Copyright © 2015, samael",
+	"authors": ["samael"],
+	"homepage": "http://singingbush.com",
+	"dependencies": {
+		"gtk-d": "~>3.1.2"
+	}
+}
