@@ -5,6 +5,6 @@
 	"authors": ["samael"],
 	"homepage": "http://singingbush.com",
 	"dependencies": {
-		"gtk-d": "2.4.2"
+		"gtk-d": "3.1.3"
 	}
 }
