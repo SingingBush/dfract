@@ -69,6 +69,8 @@ class Mandelbrot : Fractal {
 				auto value = cast(ubyte) (iterations * 255.0 / MAX_ITERATIONS);
 				//char redColor = iterations > MAX_ITERATIONS? 0x00 : 0xFF; // temp way to pick color - need better system
 
+				// new Color(cast(ubyte)90, cast(ubyte)70, cast(ubyte)122) // todo: use Color object
+				// new Color(255, 255, 255);
 				putPixel(pixBuffer, x, y, value, 0x00, 0x00);
 			}
 		}
