@@ -48,11 +48,15 @@ class DfractWindow : MainWindow {
 
 		auto fractal = new Mandelbrot(600, 400);
 		
-		Image img = fractal.render();
+		//Image img = new Image(fractal.render());
+		//box.add(img);
+		
+		auto pixBuffer = fractal.render();
+		auto rowStride = pixBuffer.getRowstride();
 
 		auto drawingArea = new DrawingArea(600, 400);
 
-		ImageSurface surface;
+		ImageSurface surface = ImageSurface.createForData(cast(ubyte*)pixBuffer.getPixels(), CairoFormat.ARGB32, 600, 400, rowStride);
 
 		drawingArea.addTickCallback(delegate(Widget widget, FrameClock clock) {
 				if(this.mouseClicked) {
@@ -63,8 +67,9 @@ class DfractWindow : MainWindow {
         			auto width = widget.getAllocatedWidth();
 					auto height = widget.getAllocatedHeight();
 
-        			surface = ImageSurface.create(CairoFormat.ARGB32, width, height);
-        			//surface = ImageSurface.createForData(imgData, CairoFormat.ARGB32, width, height, 8);
+        			//surface = ImageSurface.create(CairoFormat.ARGB32, width, height);
+        			//surface = ImageSurface.createForData(imgData, CairoFormat.ARGB32, width, height, 8);					
+					//surface = ImageSurface.createForData(cast(ubyte*)pixBuffer.getPixels(), CairoFormat.ARGB32, width, height, rowStride);
         			Context ctx = Context.create(surface);
         			
         			ctx.setSourceRgb(0.9, 0.6, 0.2); // RGB 0.0 to 1.0

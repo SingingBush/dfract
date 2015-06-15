@@ -4,6 +4,10 @@ import gdk.Color, gdk.Pixbuf, gtk.Image;
 
 import std.complex, std.range, std.algorithm;
 
+import std.stdio;
+
+import core.HSV;
+
 abstract class Fractal {
 
 	private
@@ -12,7 +16,7 @@ abstract class Fractal {
 	cdouble z;
 
 	public
-	abstract Image render();
+	abstract Pixbuf render();
 }
 
 class Mandelbrot : Fractal {
@@ -23,11 +27,11 @@ class Mandelbrot : Fractal {
 		// auto c = complex(1.0, 2.0)
 	}
 
-	override Image render() {
+	override Pixbuf render() {
 		return drawMandlebrot(_width, _height);
 	}
 
-	Image drawMandlebrot(int width, int height) {
+	Pixbuf drawMandlebrot(int width, int height) {
 		auto pixBuffer = new Pixbuf(GdkColorspace.RGB, true, 8, width, height); // RGBA
 
 		//putPixel(pixBuffer, 10 , 10, 0xFF, 0x00, 0x11);
@@ -69,9 +73,15 @@ class Mandelbrot : Fractal {
 				auto value = cast(ubyte) (iterations * 255.0 / MAX_ITERATIONS);
 				//char redColor = iterations > MAX_ITERATIONS? 0x00 : 0xFF; // temp way to pick color - need better system
 
-				// new Color(cast(ubyte)90, cast(ubyte)70, cast(ubyte)122) // todo: use Color object
+				// new Color(cast(ubyte)90, cast(ubyte)70, cast(ubyte)122) // todo: use gdk.Color object or gdk.RGBA
 				// new Color(255, 255, 255);
-				putPixel(pixBuffer, x, y, value, 0x00, 0x00);
+				
+				//writefln("hue color:  ubyte %s, double %s", value, hue);
+				HSV hsv = new HSV(value, 0xDE, 0xCC);
+				Color col = hsv.toRGBA();
+				
+				putPixel(pixBuffer, x, y, col);
+				//putPixel(pixBuffer, x, y, value, 0x90, 0xFC);
 			}
 		}
 		
@@ -79,7 +89,7 @@ class Mandelbrot : Fractal {
 //			iota(-2.05, 0.55, 0.03)
 //				.map!(x => 0.complex.recurrence!((a, n) => a[n - 1] ^^ 2 + complex(x, y)).drop(100).front.abs < 2 ? '#' : '.').writeln;
 
-		return new Image(pixBuffer);
+		return pixBuffer;
 	}
 
 	double lensqr(cdouble c) {
@@ -99,5 +109,19 @@ class Mandelbrot : Fractal {
 		p[1] = g;
 		p[2] = b;
 		p[3] = 0xFF;
+	}
+	
+	void putPixel(Pixbuf buffer, int x, int y, Color rgb) {
+		char* pixels = buffer.getPixels();
+		int pb_width = buffer.getWidth();
+		int rowstride = buffer.getRowstride();
+		int n_channels = buffer.getNChannels();
+		
+		char* p = pixels + y * rowstride + x * n_channels;
+
+		p[0] = cast(char) rgb.red();
+		p[1] = cast(char) rgb.green();
+		p[2] = cast(char) rgb.blue();
+		p[3] = cast(char) 0xFF;
 	}
 }
