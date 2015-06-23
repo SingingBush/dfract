@@ -70,13 +70,11 @@ class DfractWindow : MainWindow {
         			//surface = ImageSurface.create(CairoFormat.ARGB32, width, height);
         			//surface = ImageSurface.createForData(imgData, CairoFormat.ARGB32, width, height, 8);					
 					//surface = ImageSurface.createForData(cast(ubyte*)pixBuffer.getPixels(), CairoFormat.ARGB32, width, height, rowStride);
+        			surface = ImageSurface.createForData(cast(ubyte*)pixBuffer.getPixels(), CairoFormat.ARGB32, 600, 400, rowStride);
         			Context ctx = Context.create(surface);
         			
         			ctx.setSourceRgb(0.9, 0.6, 0.2); // RGB 0.0 to 1.0
         			ctx.setDash([4.0], 0);
-
-        			//ctx.moveTo(mouseStart.x, mouseStart.y);
-					//ctx.lineTo(mouseEnd.x, mouseEnd.y);
 
 					int startX = mouseStart.x < mouseEnd.x ? mouseStart.x : mouseEnd.x;
 					int startY = mouseStart.y < mouseEnd.y ? mouseStart.y : mouseEnd.y;
