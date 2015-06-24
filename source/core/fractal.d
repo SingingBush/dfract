@@ -21,6 +21,8 @@ abstract class Fractal {
 
 class Mandelbrot : Fractal {
 
+	const int MAX_ITERATIONS = 100;
+
 	this(int width, int height) {
 		_width = width;
 		_height = height;
@@ -28,44 +30,19 @@ class Mandelbrot : Fractal {
 	}
 
 	override Pixbuf render() {
-		return drawMandlebrot(_width, _height);
+		return drawMandlebrot();
 	}
 
-	Pixbuf drawMandlebrot(int width, int height) {
-		auto pixBuffer = new Pixbuf(GdkColorspace.RGB, true, 8, width, height); // RGBA
+	Pixbuf drawMandlebrot() {
+		auto pixBuffer = new Pixbuf(GdkColorspace.RGB, true, 8, _width, _height); // RGBA
 
-		//putPixel(pixBuffer, 10 , 10, 0xFF, 0x00, 0x11);
-		
-		for (int i = 0; i < width; i++) {
-			putPixel(pixBuffer, i, 0, 0x00, 0xFF, 0x00);
-			
-			putPixel(pixBuffer, i, 20, 0x00, 0xFF, 0xFF);
-			
-			putPixel(pixBuffer, i, 40, 0xFF, 0x00, 0xFF);
-			
-			putPixel(pixBuffer, i, 60, 0xFF, 0xFF, 0x00);
-			
-			putPixel(pixBuffer, i, 80, 0xFF, 0x00, 0x00);
-		}
-
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		for (int x = 0; x < _width; x++) {
+			for (int y = 0; y < _height; y++) {
 
 				// calculate the colour for the pixel, then set it on the Pixbuf
-				const int MAX_ITERATIONS = 100;
+				
 				// calculate how many iterations
-				//int iterations = 0;
-
-				auto
-					c_x = x * 1.0 / width - 0.5,
-					c_y = y * 1.0 / height - 0.5,
-					c = c_y * 2.0i + c_x * 3.0 - 1.0,
-					z = 0.0i + 0.0,
-					iterations = 0;
-				for (; iterations < MAX_ITERATIONS; ++iterations) {
-					z = z * z + c;
-					if (lensqr(z) > 4) break;
-				}
+				int iterations = calculateIterations(x, y);
 
 				//auto what = 0.complex.recurrence!((a, n) => a[n - 1] ^^ 2 + complex(x, y));
 
@@ -90,6 +67,20 @@ class Mandelbrot : Fractal {
 //				.map!(x => 0.complex.recurrence!((a, n) => a[n - 1] ^^ 2 + complex(x, y)).drop(100).front.abs < 2 ? '#' : '.').writeln;
 
 		return pixBuffer;
+	}
+
+	int calculateIterations(int x, int y) {
+		auto
+			c_x = x * 1.0 / _width - 0.5,
+			c_y = y * 1.0 / _height - 0.5,
+			c = c_y * 2.0i + c_x * 3.0 - 1.0,
+			z = 0.0i + 0.0,
+			iterations = 0;
+		for (; iterations < MAX_ITERATIONS; ++iterations) {
+			z = z * z + c;
+			if (lensqr(z) > 4) break;
+		}
+		return iterations;
 	}
 
 	double lensqr(cdouble c) {
