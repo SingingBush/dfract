@@ -3,5 +3,5 @@ language: d
 
 d:
  - dmd
- - gdc
+# - gdc  won't work with gdc
  - ldc
