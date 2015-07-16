@@ -1,0 +1,7 @@
+# travis now supports D and will run 'dub test' with multiple compilers
+language: d
+
+d:
+ - dmd
+ - gdc
+ - ldc
