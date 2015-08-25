@@ -35,6 +35,8 @@ class DfractWindow : MainWindow {
 		super("Dfract GTK3 Fractal Program");
 
 		setDefaultSize(600, 400);
+		//setResizable(true);
+		//setHasResizeGrip(true);
 		//setBorderWidth(10);
 
 		auto menuBar = new MenuBar();
@@ -42,9 +44,12 @@ class DfractWindow : MainWindow {
 	    menuBar.append(new FileMenu());
 	    menuBar.append(new HelpMenu());
 
-		auto box = new Box(Orientation.VERTICAL, 20);
+		auto box = new Box(Orientation.VERTICAL, 0);
 
 		box.packStart(menuBar, false, false, 0);
+
+		// add status bar at the bottom should be done with:
+		// box.packEnd(Widget child, bool expand, bool fill, uint padding)
 
 		auto fractal = new Mandelbrot(600, 400);
 		
@@ -52,39 +57,13 @@ class DfractWindow : MainWindow {
 		//box.add(img);
 		
 		auto pixBuffer = fractal.render();
-		auto rowStride = pixBuffer.getRowstride();
 
 		auto drawingArea = new DrawingArea(600, 400);
+		box.add(drawingArea);
 
-		ImageSurface surface = ImageSurface.createForData(cast(ubyte*)pixBuffer.getPixels(), CairoFormat.ARGB32, 600, 400, rowStride);
 
 		drawingArea.addTickCallback(delegate(Widget widget, FrameClock clock) {
 				if(this.mouseClicked) {
-        			//writefln("draw %s", widget);
-        			// todo: draw box here
-
-        			auto drawable = widget.getWindow();
-        			auto width = widget.getAllocatedWidth();
-					auto height = widget.getAllocatedHeight();
-
-        			//surface = ImageSurface.create(CairoFormat.ARGB32, width, height);
-        			//surface = ImageSurface.createForData(imgData, CairoFormat.ARGB32, width, height, 8);					
-					//surface = ImageSurface.createForData(cast(ubyte*)pixBuffer.getPixels(), CairoFormat.ARGB32, width, height, rowStride);
-        			surface = ImageSurface.createForData(cast(ubyte*)pixBuffer.getPixels(), CairoFormat.ARGB32, 600, 400, rowStride);
-        			Context ctx = Context.create(surface);
-        			
-        			ctx.setSourceRgb(0.9, 0.6, 0.2); // RGB 0.0 to 1.0
-        			ctx.setDash([4.0], 0);
-
-					int startX = mouseStart.x < mouseEnd.x ? mouseStart.x : mouseEnd.x;
-					int startY = mouseStart.y < mouseEnd.y ? mouseStart.y : mouseEnd.y;
-
-					int squareWidth = abs(mouseStart.x - mouseEnd.x);
-					int squareHeight = abs(mouseStart.y - mouseEnd.y);
-
-					ctx.rectangle(startX, startY, squareWidth, squareHeight); // start top-left
-					ctx.stroke();
-
 					widget.queueDraw(); // Redraw the Drawing Area Widget
         		}
         		return true;
@@ -94,13 +73,28 @@ class DfractWindow : MainWindow {
 				// can be used to handle resizing
 				auto width = widget.getAllocatedWidth();
 				auto height = widget.getAllocatedHeight();
-				writefln("drawing area resized:  width %s, height %s", width, height);
+				writefln("drawing area onDraw:  width %s, height %s", width, height);
 				// todo: resize fractal
 
-				//Fill the Widget with the surface we are drawing on.
+				auto rowStride = pixBuffer.getRowstride();
+				auto bufferWidth = pixBuffer.getWidth();
+				auto bufferHeight = pixBuffer.getHeight();
+
+				ImageSurface surface = ImageSurface.createForData(
+					cast(ubyte*)pixBuffer.getPixels(), 
+					CairoFormat.ARGB32, bufferWidth, bufferHeight, rowStride);
+
+				// Fill the Widget with the surface we are drawing on.
 				if(surface !is null) {
 					ctx.setSourceSurface(surface, 0, 0);
 					ctx.paint();
+
+					if(this.mouseClicked) {
+						drawRectangle(ctx);
+					}
+
+					surface.finish();
+					surface.destroy(); // or maybe flush() finish() destroy() 
 				}
 
 				return true;
@@ -143,6 +137,17 @@ class DfractWindow : MainWindow {
 		drawingArea.addOnScroll(delegate(GdkEventScroll* event, widget) {
         		// todo: zoom in or out
         		writefln("scroll %s", event.direction); // UP or DOWN
+
+        		switch(event.direction) {
+        			case GdkScrollDirection.UP:
+        				// zoomIn
+        				break;
+        			case GdkScrollDirection.DOWN:
+        				// zoomOut
+        				break;
+        			default:
+        				break; // default block is just to avoid compiler warning
+        		}
         		return true;
         	});
 
@@ -150,6 +155,20 @@ class DfractWindow : MainWindow {
 
 		add(box);
 		showAll();
+	}
+
+	private void drawRectangle(Context ctx) {
+		ctx.setSourceRgb(0.9, 0.6, 0.2); // RGB 0.0 to 1.0
+		ctx.setDash([4.0], 0);
+
+		int startX = mouseStart.x < mouseEnd.x ? mouseStart.x : mouseEnd.x;
+		int startY = mouseStart.y < mouseEnd.y ? mouseStart.y : mouseEnd.y;
+
+		int squareWidth = abs(mouseStart.x - mouseEnd.x);
+		int squareHeight = abs(mouseStart.y - mouseEnd.y);
+
+		ctx.rectangle(startX, startY, squareWidth, squareHeight); // start top-left
+		ctx.stroke();
 	}
 
 	
