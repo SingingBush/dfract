@@ -116,3 +116,14 @@ class Mandelbrot : Fractal {
 		p[3] = cast(char) 0xFF;
 	}
 }
+
+
+unittest {
+	import dunit.toolkit;
+
+	Fractal fractal = new Mandelbrot(300, 200);
+	Pixbuf pb = fractal.render();
+
+	pb.getWidth().assertEqual(300, "Width should be 300 px");
+	pb.getHeight().assertEqual(200, "Hight should be 200 px");
+}
