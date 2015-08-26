@@ -4,7 +4,7 @@ import gdk.Color, gdk.Pixbuf, gtk.Image;
 
 import std.complex, std.range, std.algorithm;
 
-import std.stdio;
+//import std.stdio;
 
 import core.HSV;
 

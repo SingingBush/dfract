@@ -67,9 +67,21 @@ public class HSV {
 }
 
 // todo: need some working tests here 
-// unittest {
-    // auto red = new HSV(0x00, 0xFF, 0xFF);
-    // Color result = red.toRGBA();
+//unittest {
+//	import dunit.toolkit;
+//	import std.stdio;
 
-    // assert(result == new Color(255, 0, 0));
-// }
+//    //auto red = new HSV(0x00, 0xFF, 0xFF);
+//    //Color result = red.toRGBA();
+
+//    auto yellow = new HSV(0x00, 0xFF, 0xFF);
+//    Color result = yellow.toRGBA();
+
+//    writefln("gdk Color:  %s", result);
+//    // assert(result == new Color(255, 255, 0));
+
+//    Color rgbYellow = new Color(255, 255, 0);
+//    Color rgbRed = new Color(255, 0, 0);
+
+//    red.toRGBA().assertEqual(rgbRed, "HSV yellow should translate to RGB yellow");
+//}

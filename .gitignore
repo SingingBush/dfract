@@ -5,5 +5,14 @@ __dummy.html
 *.o
 *.obj
 
+__test__library__
+
+# Ignore code coverage:
+*.lst
+.*.lst
+
+# Ignore Sublime Text workspace (project file is ok):
+*.sublime-workspace
+
 # Ignore the executable
 dfract
