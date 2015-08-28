@@ -4,7 +4,7 @@
 		{
 			"follow_symlinks": true,
 			"path": ".",
-			"folder_exclude_patterns": [".dub"],
+			"folder_exclude_patterns": [".dub", ".idea"],
 			"file_exclude_patterns": ["dfract", "__test__library__"]
 		}
 	],

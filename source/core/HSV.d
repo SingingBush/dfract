@@ -66,22 +66,36 @@ public class HSV {
 	}
 }
 
-// todo: need some working tests here 
-//unittest {
-//	import dunit.toolkit;
-//	import std.stdio;
+// todo: need some better testing of the color conversion
+unittest {
+    import dunit.toolkit;
 
-//    //auto red = new HSV(0x00, 0xFF, 0xFF);
-//    //Color result = red.toRGBA();
+    auto red = new HSV(0x00, 0xFF, 0xFF);
+    Color result = red.toRGBA();
+    Color rgbRed = new Color(255, 0, 0);
 
-//    auto yellow = new HSV(0x00, 0xFF, 0xFF);
-//    Color result = yellow.toRGBA();
+    assertTrue(result.equal(rgbRed), "HSV red should result in RGBA red");
+}
 
-//    writefln("gdk Color:  %s", result);
-//    // assert(result == new Color(255, 255, 0));
+unittest {
+	import dunit.toolkit;
 
-//    Color rgbYellow = new Color(255, 255, 0);
-//    Color rgbRed = new Color(255, 0, 0);
+    auto green = new HSV(0x2C, 0xFF, 0xFF); // 2C is 44
+    Color result = green.toRGBA();
 
-//    red.toRGBA().assertEqual(rgbRed, "HSV yellow should translate to RGB yellow");
-//}
+    Color rgbGreen = new Color(0, 255, 0);
+
+    assertTrue(result.equal(rgbGreen), "HSV green should result in RGBA green");
+}
+
+unittest {
+	import dunit.toolkit;
+
+    auto blue = new HSV(0xD1, 0xFF, 0xFF); // D1 is 206
+    Color result = blue.toRGBA();
+
+    Color rgbBlue = new Color(0, 0, 255);
+
+    //result.assertEqual(rgbBlue, "HSV blue should translate to RGB blue");
+    assertTrue(result.equal(rgbBlue), "HSV blue should result in RGBA blue");
+}

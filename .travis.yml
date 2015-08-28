@@ -5,3 +5,11 @@ d:
  - dmd
 # - gdc  won't work with gdc
  - ldc
+
+os:
+ - linux
+ - osx
+
+matrix:
+  allow_failures:
+    - os: osx

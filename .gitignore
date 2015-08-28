@@ -14,5 +14,8 @@ __test__library__
 # Ignore Sublime Text workspace (project file is ok):
 *.sublime-workspace
 
+# Ignore Intellij stuff
+.idea/
+
 # Ignore the executable
 dfract
