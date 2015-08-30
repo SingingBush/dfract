@@ -119,11 +119,11 @@ class Mandelbrot : Fractal {
 
 
 unittest {
-	//import dunit.toolkit;
+	import dunit.toolkit;
 
 	Fractal fractal = new Mandelbrot(300, 200);
 	Pixbuf pb = fractal.render();
 
-	assert(pb.getWidth() == 300); // pb.getWidth().assertEqual(300, "Width should be 300 px");
-	assert(pb.getHeight() == 200); // pb.getHeight().assertEqual(200, "Hight should be 200 px");
+	pb.getWidth().assertEqual(300, "Width should be 300 px");
+	pb.getHeight().assertEqual(200, "Hight should be 200 px");
 }

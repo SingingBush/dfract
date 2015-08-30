@@ -68,28 +68,28 @@ public class HSV {
 
 // todo: need some better testing of the color conversion
 unittest {
-    //import dunit.toolkit;
+    import dunit.toolkit;
 
     auto red = new HSV(0x00, 0xFF, 0xFF);
     Color result = red.toRGBA();
     Color rgbRed = new Color(255, 0, 0);
 
-    assert(result.equal(rgbRed)); // assertTrue(result.equal(rgbRed), "HSV red should result in RGBA red");
+    assertTrue(result.equal(rgbRed), "HSV red should result in RGBA red");
 }
 
 unittest {
-	//import dunit.toolkit;
+	import dunit.toolkit;
 
     auto green = new HSV(0x2C, 0xFF, 0xFF); // 2C is 44
     Color result = green.toRGBA();
 
     Color rgbGreen = new Color(0, 255, 0);
 
-    assert(result.equal(rgbGreen)); // assertTrue(result.equal(rgbGreen), "HSV green should result in RGBA green");
+    assertTrue(result.equal(rgbGreen), "HSV green should result in RGBA green");
 }
 
 unittest {
-	//import dunit.toolkit;
+	import dunit.toolkit;
 
     auto blue = new HSV(0xD1, 0xFF, 0xFF); // D1 is 206
     Color result = blue.toRGBA();
@@ -97,5 +97,5 @@ unittest {
     Color rgbBlue = new Color(0, 0, 255);
 
     //result.assertEqual(rgbBlue, "HSV blue should translate to RGB blue");
-    assert(result.equal(rgbBlue)); // assertTrue(result.equal(rgbBlue), "HSV blue should result in RGBA blue");
+    assertTrue(result.equal(rgbBlue), "HSV blue should result in RGBA blue");
 }
