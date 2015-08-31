@@ -7,17 +7,17 @@ services:
  - docker
 
 before_install:
- - echo "Installing dependencies on ${TRAVIS_OS_NAME}"
+# - echo "Installing dependencies on ${TRAVIS_OS_NAME}"
 # - sudo apt-get update -qq
 # - sudo apt-get install -y libcairo2-dev
- - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then sudo apt-get update -qq; fi"
- - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then sudo apt-get install -y libcairo2-dev; fi"
- - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'osx' ]; then brew update; fi"
- - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'osx' ]; then brew install glib; fi"
+ - "if [ ${TRAVIS_OS_NAME} = 'linux' ]; then sudo apt-get update -qq fi"
+ - "if [ ${TRAVIS_OS_NAME} = 'linux' ]; then sudo apt-get install -y libcairo2-dev fi"
+ - "if [ ${TRAVIS_OS_NAME} = 'osx' ]; then brew update fi"
+ - "if [ ${TRAVIS_OS_NAME} = 'osx' ]; then brew install glib fi"
 
 d:
  - dmd
- - gdc
+# - gdc
  - ldc
 
 os:
@@ -27,4 +27,3 @@ os:
 matrix:
   allow_failures:
     - os: osx
-    - d: gdc
