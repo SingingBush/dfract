@@ -1,4 +1,4 @@
-import gdk.Event, gdk.Color, gdk.FrameClock, gdk.Pixbuf, cairo.Context, cairo.ImageSurface;
+import gdk.Event, gdk.Keysyms, gdk.Color, gdk.FrameClock, gdk.Pixbuf, cairo.Context, cairo.ImageSurface;
 
 import gtk.MainWindow;
 import gtk.Box;
@@ -59,7 +59,6 @@ class DfractWindow : MainWindow {
 		auto pixBuffer = fractal.render();
 
 		auto drawingArea = new DrawingArea(600, 400);
-		box.add(drawingArea);
 
 
 		drawingArea.addTickCallback(delegate(Widget widget, FrameClock clock) {
@@ -97,6 +96,26 @@ class DfractWindow : MainWindow {
 					surface.destroy(); // or maybe flush() finish() destroy() 
 				}
 
+				return true;
+			});
+
+		drawingArea.setCanFocus(true); // needed for onKeyPress to work
+
+		drawingArea.addOnKeyPress(delegate(GdkEventKey* event, widget) {
+				switch(event.keyval) {
+					//case GdkKeysyms.GDK_minus:
+					case GdkKeysyms.GDK_KP_Subtract:
+						writefln("zoom out");
+						break;
+
+					//case GdkKeysyms.GDK_plus:
+					case GdkKeysyms.GDK_KP_Add:
+						writefln("zoom in");
+						break;
+					default:
+						break;
+				}
+				
 				return true;
 			});
 

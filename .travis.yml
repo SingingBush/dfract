@@ -1,6 +1,11 @@
 # travis now supports D and will run 'dub test' with multiple compilers
 language: d
 
+sudo: required
+
+services:
+ - docker
+
 d:
  - dmd
 # - gdc  won't work with gdc

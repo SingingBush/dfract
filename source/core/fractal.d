@@ -4,7 +4,8 @@ import gdk.Color, gdk.Pixbuf, gtk.Image;
 
 import std.complex, std.range, std.algorithm;
 
-//import std.stdio;
+import std.stdio;
+import std.datetime : StopWatch; // for logging render time
 
 import core.HSV;
 
@@ -36,8 +37,11 @@ class Mandelbrot : Fractal {
 	Pixbuf drawMandlebrot() {
 		auto pixBuffer = new Pixbuf(GdkColorspace.RGB, true, 8, _width, _height); // RGBA
 
-		for (int x = 0; x < _width; x++) {
-			for (int y = 0; y < _height; y++) {
+		StopWatch timer;
+		timer.start();
+
+		foreach (immutable x; 0.._width) {
+			foreach (immutable y; 0.._height) {
 
 				// calculate the colour for the pixel, then set it on the Pixbuf
 				
@@ -61,8 +65,11 @@ class Mandelbrot : Fractal {
 				//putPixel(pixBuffer, x, y, value, 0x90, 0xFC);
 			}
 		}
+
+		timer.stop();
+		writefln("took %s ms", timer.peek().msecs);
 		
-//		foreach (immutable y; iota(-1.2, 1.2, 0.05))
+//		foreach (immutable y; iota(-1.2, 1.2, 0.05)) // std.range.iota(begin, end, step)
 //			iota(-2.05, 0.55, 0.03)
 //				.map!(x => 0.complex.recurrence!((a, n) => a[n - 1] ^^ 2 + complex(x, y)).drop(100).front.abs < 2 ? '#' : '.').writeln;
 
