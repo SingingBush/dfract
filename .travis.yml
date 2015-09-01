@@ -14,7 +14,7 @@ before_install:
 
 d:
  - dmd
-# - gdc
+ - gdc
  - ldc
 
 os:
@@ -23,4 +23,5 @@ os:
 
 matrix:
   allow_failures:
-    - os: osx
+  	- d: gdc
+#    - os: osx

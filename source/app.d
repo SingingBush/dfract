@@ -34,7 +34,7 @@ class DfractWindow : MainWindow {
 	this() {
 		super("Dfract GTK3 Fractal Program");
 
-		setDefaultSize(600, 400);
+		setDefaultSize(800, 480);
 		//setResizable(true);
 		//setHasResizeGrip(true);
 		//setBorderWidth(10);
@@ -51,14 +51,14 @@ class DfractWindow : MainWindow {
 		// add status bar at the bottom should be done with:
 		// box.packEnd(Widget child, bool expand, bool fill, uint padding)
 
-		auto fractal = new Mandelbrot(600, 400);
+		auto fractal = new Mandelbrot(800, 480);
 		
 		//Image img = new Image(fractal.render());
 		//box.add(img);
 		
 		auto pixBuffer = fractal.render();
 
-		auto drawingArea = new DrawingArea(600, 400);
+		auto drawingArea = new DrawingArea(800, 480);
 
 
 		drawingArea.addTickCallback(delegate(Widget widget, FrameClock clock) {

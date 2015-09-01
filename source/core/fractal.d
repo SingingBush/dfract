@@ -77,20 +77,30 @@ class Mandelbrot : Fractal {
 	}
 
 	int calculateIterations(int x, int y) {
-		auto
+		double
 			c_x = x * 1.0 / _width - 0.5,
-			c_y = y * 1.0 / _height - 0.5,
-			c = c_y * 2.0i + c_x * 3.0 - 1.0,
-			z = 0.0i + 0.0,
-			iterations = 0;
-		for (; iterations < MAX_ITERATIONS; ++iterations) {
-			z = z * z + c;
-			if (lensqr(z) > 4) break;
-		}
+			c_y = y * 1.0 / _height - 0.5;
+		Complex!double c = complex(c_x, c_y); // c = c_y * 2.0i + c_x * 3.0 - 1.0;
+		
+		Complex!double z = complex(0.0, 0.0); // 0.0i + 0.0; // use of cdouble should be replaced by std.complex
+		
+		int iterations = 0;
+		
+		//for (; iterations < MAX_ITERATIONS; ++iterations) {
+		//	z = z * z + c;
+		//	if (lensqr(z) > 4) break;
+		//}
+
+		// could also be:
+		do {
+            z = z * z + c;
+            iterations++;
+        } while (iterations < MAX_ITERATIONS && lensqr(z) < 4);
+
 		return iterations;
 	}
 
-	double lensqr(cdouble c) {
+	double lensqr(Complex!double c) {
 		return c.re * c.re + c.im * c.im;
 	}
 
