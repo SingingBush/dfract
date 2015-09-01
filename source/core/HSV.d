@@ -4,6 +4,8 @@ import gdk.Color;
 
 /// The fractal works out a hue, then this class can convert the HSV color to an RGB color
 // http://stackoverflow.com/questions/3018313/algorithm-to-convert-rgb-to-hsv-and-hsv-to-rgb-in-range-0-255-for-both
+//
+// todo: replace this class with gtk.HSV : public static void rgbToHsv(double r, double g, double b, out double h, out double s, out double v)
 public class HSV {
 	
 	ubyte h;

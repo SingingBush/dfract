@@ -23,5 +23,5 @@ os:
 
 matrix:
   allow_failures:
-  	- d: gdc
+    - d: gdc
 #    - os: osx
