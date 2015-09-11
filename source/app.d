@@ -106,12 +106,15 @@ class DfractWindow : MainWindow {
 					//case GdkKeysyms.GDK_minus:
 					case GdkKeysyms.GDK_KP_Subtract:
 						writefln("zoom out");
+						fractal.zoom(-2);
+						pixBuffer = fractal.render();
+						widget.queueDraw();
 						break;
 
 					//case GdkKeysyms.GDK_plus:
 					case GdkKeysyms.GDK_KP_Add:
 						writefln("zoom in");
-						fractal.zoom();
+						fractal.zoom(2);
 						pixBuffer = fractal.render();
 						widget.queueDraw();
 						break;
@@ -144,7 +147,7 @@ class DfractWindow : MainWindow {
         		mouseEnd.y = to!int(event.y) +1;
 
         		//writefln("button release %s %s", x, y);
-        		fractal.zoom(); // todo: create a new method on Fractal to select a region to zoom in on.
+        		fractal.zoom(-10); // todo: create a new method on Fractal to select a region to zoom in on.
                 pixBuffer = fractal.render();
                 widget.queueDraw();
 

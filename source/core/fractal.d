@@ -18,7 +18,7 @@ abstract class Fractal {
 
 	public
 	abstract Pixbuf render();
-	abstract void zoom();
+	abstract void zoom(int amount);
 }
 
 class Mandelbrot : Fractal {
@@ -47,11 +47,19 @@ class Mandelbrot : Fractal {
 		return drawMandelbrot();
 	}
 
-	override void zoom() {
-	    minRe /= 2; // real is for X
-        maxRe /= 2;
-        minIm /= 2; // im is for Y
-        maxIm /= 2;
+	override void zoom(int amount) {
+	    if(amount > 0) {
+	    	minRe /= amount; // real is for X
+	        maxRe /= amount;
+	        minIm /= amount; // im is for Y
+	        maxIm /= amount;
+        } else if(amount < 0) {
+        	int positiveAmount = ~ amount +1;
+        	minRe *= positiveAmount; // real is for X
+	        maxRe *= positiveAmount;
+	        minIm *= positiveAmount; // im is for Y
+	        maxIm *= positiveAmount;
+        }
 
 	    xZoom = (maxRe-minRe) / cast(double) _width;
 	    yZoom = (maxIm-minIm) / cast(double) _height;
