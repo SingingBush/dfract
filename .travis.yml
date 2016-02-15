@@ -14,9 +14,10 @@ before_install:
 
 d:
  - dmd
+ - dmd-2.069.2
  - dmd-2.068.2
  - gdc
- - ldc
+ - ldc-0.17.0
 
 os:
  - linux
