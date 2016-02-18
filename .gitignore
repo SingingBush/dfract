@@ -16,6 +16,7 @@ __test__library__
 
 # Ignore Intellij stuff
 .idea/
+*.iml
 
 # Ignore the executable
 dfract

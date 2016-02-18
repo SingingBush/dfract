@@ -14,9 +14,11 @@ before_install:
 
 d:
  - dmd
+ - dmd-2.069.2
  - dmd-2.068.2
+ - dmd-2.068.0
+ - ldc-0.17.0
  - gdc
- - ldc
 
 os:
  - linux
@@ -24,11 +26,7 @@ os:
 
 addons:
   apt:
-    packages:
-    - libcairo2
-    - libpango
-    - libgdk-pixbuf2.0
-    - libgtk-3
+    packages: [libcairo2, libpango, libgdk-pixbuf2.0, libgtk-3 ]
     
 matrix:
   allow_failures:
