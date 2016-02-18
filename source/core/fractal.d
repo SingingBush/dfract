@@ -34,41 +34,27 @@ class Mandelbrot : Fractal {
         min = complex(-2.025, -1.125);
         max = complex(0.6, 1.125);
 
-        max.im = min.im + (max.re - min.re) * _height / _width; // not sure about this, seems to get a better aspect ratio
+        //max.im = min.im + (max.re - min.re) * _height / _width; // not sure about this, seems to get a better aspect ratio
 
-        xZoom = (max.re - min.re) / cast(double) _width;
-        yZoom = (max.im - min.im) / cast(double) _height;
+        recalculateZoom();
 	}
 
 	override Pixbuf render() {
 		return drawMandelbrot();
 	}
 
-//	override void zoom(int amount) {
-//	    if(amount > 0) {
-//	    	minRe /= amount; // real is for X
-//	        maxRe /= amount;
-//	        minIm /= amount; // im is for Y
-//	        maxIm /= amount;
-//        } else if(amount < 0) {
-//        	int positiveAmount = ~ amount +1;
-//        	minRe *= positiveAmount; // real is for X
-//	        maxRe *= positiveAmount;
-//	        minIm *= positiveAmount; // im is for Y
-//	        maxIm *= positiveAmount;
-//        }
-//
-//	    xZoom = (maxRe-minRe) / cast(double) _width;
-//	    yZoom = (maxIm-minIm) / cast(double) _height;
-//	}
-
 	override void zoom(int amount) {
-        //_zoomX += amount;
-        //_zoomY += amount;
+	    if(amount > 0) {
+	        min /= amount;
+	        max /= amount;
+        } else if(amount < 0) {
+        	int positiveAmount = ~ amount +1;
+        	min *= positiveAmount;
+        	max *= positiveAmount;
+        }
 
-        min = complex(min.re += amount, min.im += amount); //min += amount;
-        max = complex(max.re -= amount, max.im -= amount); //max -= amount;
-    }
+	    recalculateZoom();
+	}
 
 	Pixbuf drawMandelbrot() {
 		auto pixBuffer = new Pixbuf(GdkColorspace.RGB, true, 8, _width, _height); // RGBA
@@ -130,7 +116,7 @@ class Mandelbrot : Fractal {
         return iterations;
     }
 
-	int calculateIterations(int x, int y) {
+	private int calculateIterations(int x, int y) {
 		auto
 			c_x = x * 1.0 / _width - 0.5,
 			c_y = y * 1.0 / _height - 0.5;
@@ -146,7 +132,7 @@ class Mandelbrot : Fractal {
 	}
 
 	// see: https://developer.gnome.org/gdk-pixbuf/unstable/gdk-pixbuf-The-GdkPixbuf-Structure.html
-	void putPixel(Pixbuf buffer, int x, int y, char r, char g, char b) {
+	private void putPixel(Pixbuf buffer, int x, int y, char r, char g, char b) {
 		char* pixels = buffer.getPixels();
 		int pb_width = buffer.getWidth();
 		int rowstride = buffer.getRowstride();
@@ -160,7 +146,7 @@ class Mandelbrot : Fractal {
 		p[3] = 0xFF;
 	}
 	
-	void putPixel(Pixbuf buffer, int x, int y, Color rgb) {
+	private void putPixel(Pixbuf buffer, int x, int y, Color rgb) {
 		char* pixels = buffer.getPixels();
 		int pb_width = buffer.getWidth();
 		int rowstride = buffer.getRowstride();
@@ -174,43 +160,48 @@ class Mandelbrot : Fractal {
 		p[3] = cast(char) 0xFF; // rgb.alpha();
 	}
 
-	Color getColor(int iterations) {
-    	    if(iterations >= MAX_ITERATIONS) {
-    	        return new Color(0x00, 0x00, 0x00);
-    	    }
-    	    int range = (iterations * 6) / MAX_ITERATIONS;
-    	    int remain = (iterations * 6) % MAX_ITERATIONS;
+	private Color getColor(int iterations) {
+        if(iterations >= MAX_ITERATIONS) {
+            return new Color(0x00, 0x00, 0x00);
+        }
+        int range = (iterations * 6) / MAX_ITERATIONS;
+        int remain = (iterations * 6) % MAX_ITERATIONS;
 
-            Color c;
+        Color c;
 
-    	    switch(range) {
-    	        case 0:
-    	            c = new Color(cast(ubyte)remain, 0x00, 0x00);
-    	            break;
-    	        case 1:
-    	            c = new Color(0xFF, cast(ubyte)remain, 0x00);
-    	            break;
-    	        case 2:
-    	            c = new Color(0x00, 0xFF, cast(ubyte)remain);
-    	            break;
-    	        case 3:
-    	            c = new Color(0x00, 0x00, cast(ubyte)remain);
-    	            break;
-                case 4:
-                    c = new Color(cast(ubyte)remain, 0x00, 0xFF);
-                	break;
-                case 5:
-                    c = new Color(0xFF, 0x00, cast(ubyte)remain);
-                	break;
-                case 6:
-                    c = new Color(0xFF, cast(ubyte)remain, 0xFF);
-                    break;
-                default:
-                    c = new Color(0xFF, 0xFF, 0xFF);
-                    break;
-    	    }
-    	    return c;
-    	}
+        switch(range) {
+            case 0:
+                c = new Color(cast(ubyte)remain, 0x00, 0x00);
+                break;
+            case 1:
+                c = new Color(0xFF, cast(ubyte)remain, 0x00);
+                break;
+            case 2:
+                c = new Color(0x00, 0xFF, cast(ubyte)remain);
+                break;
+            case 3:
+                c = new Color(0x00, 0x00, cast(ubyte)remain);
+                break;
+            case 4:
+                c = new Color(cast(ubyte)remain, 0x00, 0xFF);
+                break;
+            case 5:
+                c = new Color(0xFF, 0x00, cast(ubyte)remain);
+                break;
+            case 6:
+                c = new Color(0xFF, cast(ubyte)remain, 0xFF);
+                break;
+            default:
+                c = new Color(0xFF, 0xFF, 0xFF);
+                break;
+        }
+        return c;
+    }
+
+    private void recalculateZoom() {
+        xZoom = (max.re - min.re) / cast(double) _width;
+        yZoom = (max.im - min.im) / cast(double) _height;
+    }
 }
 
 
