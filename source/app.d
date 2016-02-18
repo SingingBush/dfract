@@ -149,7 +149,7 @@ class DfractWindow : MainWindow {
         		//writefln("button release %s %s", x, y);
         		fractal.zoom(-10); // todo: create a new method on Fractal to select a region to zoom in on.
                 pixBuffer = fractal.render();
-                widget.queueDraw();
+                widget.queueDraw(); // Redraw the Drawing Area Widget
 
         		return true;
         	});
