@@ -13,7 +13,7 @@ import gui.HelpMenu;
 
 import std.stdio, std.conv, std.math;
 
-import core.Fractal;
+import core.fractal, core.mandelbrot;
 
 void main(string[] args)
 {
