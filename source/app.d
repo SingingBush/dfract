@@ -169,10 +169,16 @@ class DfractWindow : MainWindow {
 
         		switch(event.direction) {
         			case GdkScrollDirection.UP:
-        				// zoomIn
+        				writefln("zoom in");
+						fractal.zoom(2);
+						pixBuffer = fractal.render();
+						widget.queueDraw();
         				break;
         			case GdkScrollDirection.DOWN:
-        				// zoomOut
+        				writefln("zoom out");
+						fractal.zoom(-2);
+						pixBuffer = fractal.render();
+						widget.queueDraw();
         				break;
         			default:
         				break; // default block is just to avoid compiler warning
