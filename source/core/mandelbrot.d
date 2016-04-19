@@ -2,9 +2,8 @@ module core.mandelbrot;
 
 import gdk.Color, gdk.Pixbuf, gtk.Image;
 
-import std.complex, std.range, std.algorithm;
-
-import std.stdio;
+import std.stdio, std.complex, std.range, std.algorithm;
+import std.complex : sqAbs;
 import std.datetime : StopWatch; // for logging render time
 
 import core.HSV;
@@ -33,13 +32,27 @@ class Mandelbrot : Fractal {
 	        min /= amount;
 	        max /= amount;
         } else if(amount < 0) {
-        	int positiveAmount = ~ amount +1;
+        	immutable int positiveAmount = ~ amount +1;
         	min *= positiveAmount;
         	max *= positiveAmount;
         }
 
 	    recalculateZoom();
 	}
+
+	void move(immutable double xAmount, immutable double yAmount) {
+        min += xAmount;
+        min += xAmount;
+        min.im += yAmount;
+        min.im += yAmount;
+
+        max += xAmount;
+        max += xAmount;
+        max.im += yAmount;
+        max.im += yAmount;
+
+        recalculateZoom();
+    }
 
 	Pixbuf drawMandelbrot() {
 		auto pixBuffer = new Pixbuf(GdkColorspace.RGB, true, 8, _width, _height); // RGBA
@@ -96,7 +109,7 @@ class Mandelbrot : Fractal {
         do {
             z = z ^^ 2 + c;
             iterations++;
-        } while (iterations < MAX_ITERATIONS && std.complex.sqAbs(z) < 4);
+        } while (iterations < MAX_ITERATIONS && sqAbs(z) < 4);
 
         return iterations;
     }
@@ -111,7 +124,7 @@ class Mandelbrot : Fractal {
 
 		for (; iterations < MAX_ITERATIONS; ++iterations) {
 			z = z * z + c;
-			if (std.complex.sqAbs(z) > 4) break;
+			if (sqAbs(z) > 4) break;
 		}
 		return iterations;
 	}

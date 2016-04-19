@@ -118,6 +118,35 @@ class DfractWindow : MainWindow {
 						pixBuffer = fractal.render();
 						widget.queueDraw();
 						break;
+
+					case GdkKeysyms.GDK_Left:
+					    writefln("move left");
+					    fractal.move(-0.3, 0);
+                        pixBuffer = fractal.render();
+                        widget.queueDraw();
+					    break;
+
+					case GdkKeysyms.GDK_Right:
+					    writefln("move right");
+					    fractal.move(0.3, 0);
+					    pixBuffer = fractal.render();
+					    widget.queueDraw();
+                    	break;
+
+                    case GdkKeysyms.GDK_Up:
+                        writefln("move up");
+                        fractal.move(0, -0.3);
+                        pixBuffer = fractal.render();
+                        widget.queueDraw();
+                        break;
+
+                    case GdkKeysyms.GDK_Down:
+                        writefln("move down");
+                        fractal.move(0, 0.3);
+                        pixBuffer = fractal.render();
+                        widget.queueDraw();
+                        break;
+
 					default:
 						break;
 				}
