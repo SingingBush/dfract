@@ -48,12 +48,26 @@ class Mandelbrot : Fractal {
 	        min /= amount;
 	        max /= amount;
         } else if(amount < 0) {
-        	int positiveAmount = ~ amount +1;
+        	immutable int positiveAmount = ~ amount +1;
         	min *= positiveAmount;
         	max *= positiveAmount;
         }
 
 	    recalculateZoom();
+	}
+
+	void move(immutable double xAmount, immutable double yAmount) {
+	    min += xAmount;
+	    min += xAmount;
+	    min.im += yAmount;
+	    min.im += yAmount;
+
+	    max += xAmount;
+        max += xAmount;
+        max.im += yAmount;
+        max.im += yAmount;
+
+        recalculateZoom();
 	}
 
 	Pixbuf drawMandelbrot() {
