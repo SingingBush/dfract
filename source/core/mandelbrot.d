@@ -73,11 +73,16 @@ class Mandelbrot : Fractal {
 				int iterations = calculateIterations(c); // calculateIterations(x, y); // todo: see which is quickest
 
 				// use resulting number of iterations to decide colour
-				Color color = getColor(iterations);
+				//Color color = getColor(iterations);
+				Color color = getColorHSV(iterations);
 
-				//ubyte hue = cast(ubyte) (iterations * 255.0 / MAX_ITERATIONS);
-                //HSV hsv = new HSV(hue);
-                //Color color = hsv.toRGBA();
+                // potentially use gtk.HSV and get rid of the HSV class
+//                double hue = iterations / MAX_ITERATIONS;
+//                double val = iterations >= MAX_ITERATIONS ? 0.0 : 0.9;
+//                double r, g, b;
+//                import gtk.HSV;
+//                HSV.toRgb(hue, 1.0, val, r, g, b);
+//                Color color = new Color(cast(ubyte)(r * 255.0), cast(ubyte)(g * 255.0), cast(ubyte)(b * 255.0));
 
 				putPixel(pixBuffer, x, y, color);
 				//putPixel(pixBuffer, x, y, value, 0x90, 0xFC);
@@ -114,7 +119,7 @@ class Mandelbrot : Fractal {
         return iterations;
     }
 
-	private int calculateIterations(int x, int y) {
+	private int calculateIterations(double x, double y) {
 		auto
 			c_x = x * 1.0 / _width - 0.5,
 			c_y = y * 1.0 / _height - 0.5;
@@ -157,6 +162,16 @@ class Mandelbrot : Fractal {
 		p[2] = cast(char) rgb.blue();
 		p[3] = cast(char) 0xFF; // rgb.alpha();
 	}
+
+    private Color getColorHSV(int iterations) {
+        if(iterations >= MAX_ITERATIONS) {
+            return new Color(0x00, 0x00, 0x00);
+        }
+        // otherwise work out a color:
+        ubyte hue = cast(ubyte) (iterations * 255.0 / MAX_ITERATIONS);
+        HSV hsv = new HSV(hue);
+        return hsv.toRGBA();
+    }
 
 	private Color getColor(int iterations) {
         if(iterations >= MAX_ITERATIONS) {
