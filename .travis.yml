@@ -3,18 +3,13 @@ language: d
 
 sudo: required
 
-services:
- - docker
-
 before_install:
  - "if [ ${TRAVIS_OS_NAME} = 'osx' ]; then brew update; fi"
  - "if [ ${TRAVIS_OS_NAME} = 'osx' ]; then brew install cairo pango gdk-pixbuf gtk+3; fi"
 
 d:
  - dmd
- - dmd-2.069.2
  - ldc
- - ldc-1.0.0-alpha1
  - gdc
 
 os:

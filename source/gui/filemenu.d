@@ -9,7 +9,7 @@ import gtk.MenuItem;
 import gtk.Widget;
 
 
-protected class FileMenu : MenuItem {
+class FileMenu : MenuItem {
     
     this() {
         super("File");

@@ -6,6 +6,7 @@ __dummy.html
 *.obj
 
 __test__library__
+*-test-library
 
 # Ignore code coverage:
 *.lst
