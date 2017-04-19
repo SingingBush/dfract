@@ -1,7 +1,9 @@
 # travis now supports D and will run 'dub test' with multiple compilers
 language: d
 
-sudo: required
+sudo: false
+
+dist: trusty
 
 before_install:
  - "if [ ${TRAVIS_OS_NAME} = 'osx' ]; then brew update; fi"
