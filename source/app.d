@@ -15,8 +15,7 @@ import std.stdio, std.conv, std.math;
 
 import core.fractal, core.mandelbrot;
 
-void main(string[] args)
-{
+void main(string[] args) {
 	Main.init(args);
 
 	new DfractWindow();
@@ -27,9 +26,9 @@ void main(string[] args)
 struct Position { int x; int y; }
 
 class DfractWindow : MainWindow {
-	bool mouseClicked = false; // so we can click and drag
+	private bool mouseClicked = false; // so we can click and drag
 
-	Position mouseStart, mouseEnd;
+	private Position mouseStart, mouseEnd;
 
 	this() {
 		super("Dfract GTK3 Fractal Program");
