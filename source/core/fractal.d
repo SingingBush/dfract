@@ -11,16 +11,15 @@ import core.HSV;
 
 abstract class Fractal {
 
-	const int MAX_ITERATIONS = 256;
+	protected const int MAX_ITERATIONS = 256;
 
-	int _width, _height;
-	Complex!double min, max;
-	double xZoom = 1.0;
-	double yZoom = 1.0;
-	bool useHsv = true;
+	protected int _width, _height;
+	protected Complex!double min, max;
+	protected double xZoom = 1.0;
+	protected double yZoom = 1.0;
 
-	public
-	abstract Pixbuf render();
+	public bool useHsv = true;
 
-	abstract void zoom(int amount);
+	public abstract Pixbuf render();
+	public abstract void zoom(int amount);
 }

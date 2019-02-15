@@ -231,11 +231,11 @@ class DfractWindow : MainWindow {
 		ctx.setSourceRgb(0.9, 0.6, 0.2); // RGB 0.0 to 1.0
 		ctx.setDash([4.0], 0);
 
-		int startX = mouseStart.x < mouseEnd.x ? mouseStart.x : mouseEnd.x;
-		int startY = mouseStart.y < mouseEnd.y ? mouseStart.y : mouseEnd.y;
+		immutable int startX = mouseStart.x < mouseEnd.x ? mouseStart.x : mouseEnd.x;
+		immutable int startY = mouseStart.y < mouseEnd.y ? mouseStart.y : mouseEnd.y;
 
-		int squareWidth = abs(mouseStart.x - mouseEnd.x);
-		int squareHeight = abs(mouseStart.y - mouseEnd.y);
+		immutable int squareWidth = abs(mouseStart.x - mouseEnd.x);
+		immutable int squareHeight = abs(mouseStart.y - mouseEnd.y);
 
 		ctx.rectangle(startX, startY, squareWidth, squareHeight); // start top-left
 		ctx.stroke();

@@ -69,8 +69,8 @@ class Mandelbrot : Fractal {
 				double cReal = min.im + (cast(double) y * yZoom);
 
 				// calculate how many iterations
-				Complex!double c = complex(cImaginary, cReal);
-				int iterations = calculateIterations(c); // calculateIterations(x, y); // todo: see which is quickest
+				immutable Complex!double c = complex(cImaginary, cReal);
+				immutable int iterations = calculateIterations(c); // calculateIterations(x, y); // todo: see which is quickest
 
 				// use resulting number of iterations to decide colour
 				// color can be done using RGB with ranges or our HSV class
@@ -123,8 +123,10 @@ class Mandelbrot : Fractal {
 		auto
 			c_x = x * 1.0 / _width - 0.5,
 			c_y = y * 1.0 / _height - 0.5;
-		Complex!double c = complex(c_y * 2.0, c_x * 3.0 - 1.0);
+
+		immutable Complex!double c = complex(c_y * 2.0, c_x * 3.0 - 1.0);
 		Complex!double z = 0.complex;
+
 		int iterations = 0;
 
 		for (; iterations < MAX_ITERATIONS; ++iterations) {
@@ -137,9 +139,9 @@ class Mandelbrot : Fractal {
 	// see: https://developer.gnome.org/gdk-pixbuf/unstable/gdk-pixbuf-The-GdkPixbuf-Structure.html
 	private void putPixel(Pixbuf buffer, int x, int y, char r, char g, char b) {
 		char* pixels = buffer.getPixels();
-		int pb_width = buffer.getWidth();
-		int rowstride = buffer.getRowstride();
-		int n_channels = buffer.getNChannels();
+		//int pb_width = buffer.getWidth();
+		immutable int rowstride = buffer.getRowstride();
+		immutable int n_channels = buffer.getNChannels();
 
 		char* p = pixels + y * rowstride + x * n_channels;
 
@@ -151,9 +153,9 @@ class Mandelbrot : Fractal {
 
 	private void putPixel(Pixbuf buffer, int x, int y, Color rgb) {
 		char* pixels = buffer.getPixels();
-		int pb_width = buffer.getWidth();
-		int rowstride = buffer.getRowstride();
-		int n_channels = buffer.getNChannels();
+		//int pb_width = buffer.getWidth();
+		immutable int rowstride = buffer.getRowstride();
+		immutable int n_channels = buffer.getNChannels();
 
 		char* p = pixels + y * rowstride + x * n_channels;
 
@@ -177,8 +179,8 @@ class Mandelbrot : Fractal {
         if(iterations >= MAX_ITERATIONS) {
             return new Color(0x00, 0x00, 0x00);
         }
-        int range = (iterations * 6) / MAX_ITERATIONS;
-        int remain = (iterations * 6) % MAX_ITERATIONS;
+        immutable int range = (iterations * 6) / MAX_ITERATIONS;
+        immutable int remain = (iterations * 6) % MAX_ITERATIONS;
 
         Color c;
 
