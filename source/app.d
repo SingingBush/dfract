@@ -102,6 +102,13 @@ class DfractWindow : MainWindow {
 
 		drawingArea.addOnKeyPress(delegate(GdkEventKey* event, widget) {
 				switch(event.keyval) {
+					case GdkKeysyms.GDK_p:
+						writefln("change pallete");
+						fractal.useHsv = !fractal.useHsv;
+						pixBuffer = fractal.render();
+						widget.queueDraw();
+						break;
+
 					//case GdkKeysyms.GDK_minus:
 					case GdkKeysyms.GDK_KP_Subtract:
 						writefln("zoom out");

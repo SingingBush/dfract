@@ -17,6 +17,7 @@ abstract class Fractal {
 	Complex!double min, max;
 	double xZoom = 1.0;
 	double yZoom = 1.0;
+	bool useHsv = true;
 
 	public
 	abstract Pixbuf render();

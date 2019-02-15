@@ -73,8 +73,8 @@ class Mandelbrot : Fractal {
 				int iterations = calculateIterations(c); // calculateIterations(x, y); // todo: see which is quickest
 
 				// use resulting number of iterations to decide colour
-				//Color color = getColor(iterations);
-				Color color = getColorHSV(iterations);
+				// color can be done using RGB with ranges or our HSV class
+				Color color = useHsv ? getColorHSV(iterations) : getColor(iterations);
 
                 // potentially use gtk.HSV and get rid of the HSV class
 //                double hue = iterations / MAX_ITERATIONS;
