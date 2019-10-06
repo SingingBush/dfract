@@ -39,10 +39,6 @@ jobs:
     - stage: Mac builds
       d: dmd
       os: osx
-    - d: ldc
-      os: osx
-    - d: dmd
-      os: osx
       osx_image: xcode11
     - d: ldc
       os: osx

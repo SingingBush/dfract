@@ -17,6 +17,7 @@ __test__library__
 
 # Ignore Intellij stuff
 .idea/
+out/
 *.iml
 
 # Ignore the executable
