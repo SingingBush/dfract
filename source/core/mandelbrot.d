@@ -1,13 +1,20 @@
 module core.mandelbrot;
 
-import gdk.Color, gdk.Pixbuf, gtk.Image;
+private import gdk.Color, gdk.Pixbuf, gtk.Image;
 
-import std.stdio, std.complex, std.range, std.algorithm;
-import std.complex : sqAbs;
-import std.datetime : StopWatch; // for logging render time
+private import std.stdio, std.complex, std.range, std.algorithm;
+private import std.complex : sqAbs;
 
-import core.HSV;
-import core.fractal;
+// https://dlang.org/changelog/2.075.0.html#split-std-datetime
+static if (__VERSION__ >= 2077) {
+	private import std.datetime.stopwatch : StopWatch; // uses core.time.Duration
+	private import core.time;
+} else {
+	import std.datetime : StopWatch; // uses core.time.TickDuration
+}
+
+private import core.HSV;
+private import core.fractal;
 
 class Mandelbrot : Fractal {
 
@@ -90,7 +97,7 @@ class Mandelbrot : Fractal {
 		}
 
 		timer.stop();
-		writefln("Mandelbrot render time: %s ms", timer.peek().msecs);
+		writefln("Mandelbrot render time:\t%s", timer.peek());
 
 //		foreach (immutable y; iota(-1.2, 1.2, 0.05)) // std.range.iota(begin, end, step)
 //			iota(-2.05, 0.55, 0.03)

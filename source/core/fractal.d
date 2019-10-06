@@ -1,13 +1,7 @@
 module core.fractal;
 
-import gdk.Color, gdk.Pixbuf, gtk.Image;
-
-import std.complex, std.range, std.algorithm;
-
-import std.stdio;
-import std.datetime : StopWatch; // for logging render time
-
-import core.HSV;
+public import gdk.Pixbuf;
+public import std.complex;
 
 abstract class Fractal {
 
