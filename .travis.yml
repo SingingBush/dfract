@@ -3,27 +3,17 @@ language: d
 
 dist: bionic
 
+osx_image: xcode11
+
 # start most recent dmd and ldc first, then older versions. (don't bother with pre-release')
 # For available compilers see: https://semitwist.com/travis-d-compilers
 d:
   - ldc
   - dmd
-  - dmd-2.087.1
-  - dmd-2.086.1
-  - dmd-2.085.1
-  - dmd-2.084.1
-  - dmd-2.083.1
-  - dmd-2.082.1
-  - dmd-2.081.2
-  - dmd-2.080.1
-  - ldc-1.17.0 # eq to dmd v2.087
-  - ldc-1.16.0 # eq to dmd v2.086.1
-  - ldc-1.15.0 # eq to dmd v2.085.1
-  - ldc-1.14.0 # eq to dmd v2.084.1
-  - ldc-1.13.0 # eq to dmd v2.083.1
-  - ldc-1.12.0 # eq to dmd v2.082.1
-  - ldc-1.11.0 # eq to dmd v2.081.2
-  - ldc-1.10.0 # eq to dmd v2.080.1
+  - dmd-2.090.1
+  - dmd-2.089.1
+  - ldc-1.20.1 # based on DMD v2.090.1 and LLVM 9.0.1
+  - ldc-1.19.0 # based on DMD v2.089.1 and LLVM 9.0.1
 
 addons:
   apt:
@@ -33,6 +23,7 @@ addons:
     packages: [ libgtk-3-dev ]
   homebrew:
     brewfile: true
+    update: true
     
 jobs:
   include:
