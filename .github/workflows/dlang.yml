@@ -14,15 +14,28 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macOS-latest ]
-        compiler: [ dmd-latest, ldc-latest ]
+        compiler:
+          - dmd-latest
+          - ldc-latest
+          - dmd-2.094.2
+          - ldc-1.24.0 # eq to dmd v2.094.1
+
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-      - name: Install D compiler
-        uses: mihails-strasuns/setup-dlang@v0.4.1
+      - name: Install ${{ matrix.compiler }}
+        uses: dlang-community/setup-dlang@v1
         with:
           compiler: ${{ matrix.compiler }}
+      
+      # - name: Install dependencies on Ubuntu
+      #   if: startsWith(matrix.os, 'ubuntu')
+      #   run: sudo apt-get update && sudo apt-get install libgtk-3-dev -y
+
+      # - name: Install dependencies on Mac OSX
+      #   if: startsWith(matrix.os, 'macos')
+      #   run: brew bundle
 
       - name: Build with dub
         run: |

@@ -1,6 +1,7 @@
 dfract
 ======
 
+[![CI](https://github.com/SingingBush/dfract/actions/workflows/dlang.yml/badge.svg)](https://github.com/SingingBush/dfract/actions/workflows/dlang.yml)
 [![Build Status](https://travis-ci.org/SingingBush/dfract.png)](https://travis-ci.org/SingingBush/dfract)
 
 GTK application written in [D](http://dlang.org). This is a work in progress - nowhere near completion!
