@@ -5,7 +5,13 @@ on:
     - cron: '30 7 1 * *'
   push:
     branches:
-      - master
+      - main
+
+
+#
+# todo: Add GDC builds. The compatibility of gdc is:
+#   gcc gdc-12  -> 2.098
+#   gcc gdc-11  -> 2.076
 
 jobs:
   test:
@@ -17,7 +23,12 @@ jobs:
         compiler:
           - dmd-latest
           - ldc-latest
+          - dmd-2.098.1
+          - dmd-2.097.2
+          - dmd-2.096.1
+          - dmd-2.095.1
           - dmd-2.094.2
+          - ldc-1.28.1 # eq to dmd v2.098.1
           - ldc-1.24.0 # eq to dmd v2.094.1
 
     runs-on: ${{ matrix.os }}
