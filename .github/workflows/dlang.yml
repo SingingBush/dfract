@@ -8,11 +8,6 @@ on:
       - main
 
 
-#
-# todo: Add GDC builds. The compatibility of gdc is:
-#   gcc gdc-12  -> 2.098
-#   gcc gdc-11  -> 2.076
-
 jobs:
   test:
     name: dub build with ${{ matrix.compiler }} on ${{ matrix.os }}
@@ -38,7 +33,7 @@ jobs:
           # - dmd-2.087.1
           - dmd-2.086.1
           # - dmd-2.085.1
-          - dmd-2.076 # eq to gdc that shipped in gcc 11 (gcc 12 got 2.100)
+          - dmd-2.076.1 # eq to gdc that shipped in gcc 11
           # - ldc-1.28.1 # eq to dmd v2.098.1
           # - ldc-1.24.0 # eq to dmd v2.094.1
         include:
@@ -69,10 +64,18 @@ jobs:
           dub --version
           dub build
 
-  # On Ubuntu we can use GDC (so keep working for D version 2.076)
+#
+# On Ubuntu we can use GDC. The compatibility of gdc is:
+#   gcc gdc-10  -> 2.076 (default on Ubuntu 20.04)
+#   gcc gdc-11  -> 2.076
+#   gcc gdc-12  -> 2.100
   gdc-latest:
     name: GDC on Ubuntu
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [ gdc-10, gdc-11, gdc-12 ]
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
 
@@ -81,14 +84,14 @@ jobs:
         with:
           compiler: dmd-latest
 
-      - name: Install GDC
+      - name: Install ${{ matrix.compiler }}
         run: |
           sudo apt-get update
-          sudo apt-get install gdc -y
-          gdc --version
+          sudo apt-get install ${{ matrix.compiler }} -y
+          ${{ matrix.compiler }} --version
 
       - name: Build with dub
         env:
-          DC: gdc
-        run: dub build --compiler=gdc
+          DC: ${{ matrix.compiler }}
+        run: dub build --compiler=${{ matrix.compiler }}
 
