@@ -19,17 +19,33 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest, macOS-latest ]
+        os: [ ubuntu-latest ]
         compiler:
           - dmd-latest
           - ldc-latest
+          # - dmd-2.099.1
           - dmd-2.098.1
-          - dmd-2.097.2
+          # - dmd-2.097.2
           - dmd-2.096.1
-          - dmd-2.095.1
-          - dmd-2.094.2
-          - ldc-1.28.1 # eq to dmd v2.098.1
-          - ldc-1.24.0 # eq to dmd v2.094.1
+          # - dmd-2.095.1
+          # - dmd-2.094.2
+          # - dmd-2.093.1
+          # - dmd-2.092.1
+          # - dmd-2.091.1
+          # - dmd-2.090.1
+          # - dmd-2.089.1
+          # - dmd-2.088.1
+          # - dmd-2.087.1
+          - dmd-2.086.1
+          # - dmd-2.085.1
+          - dmd-2.076 # eq to gdc that shipped in gcc 11 (gcc 12 got 2.100)
+          # - ldc-1.28.1 # eq to dmd v2.098.1
+          # - ldc-1.24.0 # eq to dmd v2.094.1
+        include:
+          - { os: windows-latest, compiler: dmd-latest }
+          - { os: windows-latest, compiler: ldc-latest }
+          - { os: macos-latest, compiler: dmd-latest }
+          - { os: macos-latest, compiler: ldc-latest }
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -52,4 +68,27 @@ jobs:
         run: |
           dub --version
           dub build
+
+  # On Ubuntu we can use GDC (so keep working for D version 2.076)
+  gdc-latest:
+    name: GDC on Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install DMD (so dub is available)
+        uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: dmd-latest
+
+      - name: Install GDC
+        run: |
+          sudo apt-get update
+          sudo apt-get install gdc -y
+          gdc --version
+
+      - name: Build with dub
+        env:
+          DC: gdc
+        run: dub build --compiler=gdc
 
