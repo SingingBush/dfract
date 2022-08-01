@@ -4,9 +4,9 @@
 	"copyright": "Copyright © 2015, samael",
 	"license": "GPL-2.0",
 	"authors": ["samael"],
-	"homepage": "http://singingbush.com",
+	"homepage": "https://singingbush.com",
 	"dependencies": {
-		"gtk-d": "~>3.9.0",
+		"gtk-d": "~>3.10.0",
 		"dunit": "~>1.0.16"
 	}
 }
