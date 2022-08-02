@@ -53,8 +53,8 @@ jobs:
       #   if: startsWith(matrix.os, 'macos')
       #   run: brew bundle
 
-      - name: Run Unit Tests
-        run: dub test --build=unittest
+      # - name: Run Unit Tests
+      #   run: dub test --build=unittest
 
       - name: Build with release profile
         run: dub build --build=release
@@ -90,10 +90,10 @@ jobs:
           ${{ matrix.compiler }} --version
           dub --version
 
-      - name: Run Unit Tests
-        env:
-          DC: ${{ matrix.compiler }}
-        run: dub test --build=unittest --compiler=${{ matrix.compiler }}
+      # - name: Run Unit Tests
+      #   env:
+      #     DC: ${{ matrix.compiler }}
+      #   run: dub test --build=unittest --compiler=${{ matrix.compiler }}
 
       - name: Build with release profile
         env:
