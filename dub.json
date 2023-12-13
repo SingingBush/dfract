@@ -8,5 +8,8 @@
 	"dependencies": {
 		"gtk-d": "~>3.10.0",
 		"dunit": "~>1.0.16"
-	}
+	},
+	"toolchainRequirements": {
+        "frontend": ">=2.076"
+    }
 }
