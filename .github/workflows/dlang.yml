@@ -1,9 +1,11 @@
 name: CI
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '30 7 1 * *'
   push:
+  pull_request:
     branches:
       - main
 
@@ -18,20 +20,25 @@ jobs:
         compiler:
           - dmd-latest
           - ldc-latest
-          # - dmd-2.103.1
-          # - dmd-2.102.2
-          - dmd-2.101.2
-          # - dmd-2.100.2
-          # - dmd-2.099.1
-          - dmd-2.098.1
-          # - dmd-2.097.2
-          - dmd-2.096.1
-          # - dmd-2.095.1 # 2021
+          - dmd-2.105.3 # (released in 2023) 
+          - dmd-2.104.2 # (released in 2023)
+          # - dmd-2.103.1 # (released in 2023)
+          # - dmd-2.102.2 # (released in 2023)
+          - dmd-2.101.2 # (released in 2023)
+          # - dmd-2.100.2 # (released in 2022) ## GDC 12 can support 2.100
+          # - dmd-2.099.1 # (released in 2022)
+          - dmd-2.098.1 # (released in 2021)
+          # - dmd-2.097.2 # (released in 2021)
+          - dmd-2.096.1 # (released in 2021)
+          # - dmd-2.095.1 # (released in 2021)
           # - dmd-2.094.2
           # - dmd-2.093.1
           # - dmd-2.092.1
           # - dmd-2.091.1
-          - dmd-2.090.1 # 2020
+          - dmd-2.090.1 # (released in 2020)
+          - dmd-2.084.1 # (released in 2019)
+          - dmd-2.083.1 # (released in 2018)
+          - dmd-2.076.1 # compatibility with GDC 11 will require 2076 compatibility (from 2017)
           # - ldc-1.28.1 # eq to dmd v2.098.1
           # - ldc-1.24.0 # eq to dmd v2.094.1
         include:
@@ -42,7 +49,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install ${{ matrix.compiler }}
         uses: dlang-community/setup-dlang@v1
@@ -63,12 +70,12 @@ jobs:
       - name: Build with release profile
         run: dub build --build=release
 
-#
-# On Ubuntu we can use GDC. The compatibility of gdc is:
-#   gcc gdc-10  -> 2.076 (default on Ubuntu 20.04)
-#   gcc gdc-11  -> 2.076
-#   gcc gdc-12  -> 2.100
-  gdc-latest:
+## On Ubuntu we can use GDC. The compatibility of gdc is:
+##   gcc gdc-10  -> D 2.076 (the default on Ubuntu 20.04 (ubuntu-latest), also available on 22.04)
+##   gcc gdc-11  -> D 2.076 (requires Ubuntu 22.04)
+##   gcc gdc-12  -> D 2.100 (requires Ubuntu 22.04)
+##   gcc gdc-13  -> D 2.??? (requires Ubuntu 23.04 - no runners yet)
+  gdc:
     name: ${{ matrix.compiler }} on ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -77,7 +84,7 @@ jobs:
         compiler: [ gdc-10, gdc-11, gdc-12 ]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install DMD (so dub is available)
         uses: dlang-community/setup-dlang@v1
